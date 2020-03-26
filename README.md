@@ -83,3 +83,19 @@ It will open the crontab file that you can edit using nano and type.
 @reboot bash /home/pi/aboveandbelow/aboveAndBelowPython/startupStream.sh
 ```
 Don't forget to save. (Nano reminder : To quit, CTRL+X and then hit Y or O to save. If you are not familiar with nano text editor on Pi check a tutorial online. )
+
+The startupStream.sh file contains a code that will run in a loop, quit and relaunch periodically the python code so if anything goes wrong, it will restart.
+
+```
+#!/bin/bash
+
+while true
+do
+	printf "RELAUNCH"
+	python3 /home/pi/aboveandbelow/aboveAndBelowPython/dataStreamer.py &
+	sleep 120
+	printf "KILL PYTHON"
+	pkill -9 python
+	sleep 5
+done
+```
