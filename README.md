@@ -15,16 +15,24 @@ Tested with 1.8.12 version of Arduino IDE.
 ### Wiring
 Using an Arduino Uno plugged to the Raspberry Pi
 
-Sparkfun environmental combo CCS811 / BME280
+#### Sparkfun environmental combo CCS811 / BME280
+
 SDA > A4
+
 SCL > A5
+
 3.3V > Arduino 3.3.V
+
 GND > Arduino Ground
 
-novaPM sensor SDS011
+#### novaPM sensor SDS011
+
 RXD > 3
+
 TXD > 2
+
 5V > Arduino 5V
+
 GND > Arduino Ground
 
 ## aboveAndBelowPython
