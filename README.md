@@ -7,8 +7,6 @@
 
 ## aboveAndBelowArduino
 
-
-
 ### Source code
 In aboveAndBelowArduino/AB_Arduino_ReadPollutionSensors/AB_Arduino_ReadPollutionSensors.ino you will find the code to upload on an Arduino. 
 
@@ -17,6 +15,7 @@ Tested with 1.8.12 version of Arduino IDE.
 The code relies on external librairies such as 
 * [SparkFun_CCS811_Arduino_Library](https://github.com/sparkfun/SparkFun_CCS811_Arduino_Library)
 * [SparkFun_BME280_Arduino_Library](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library)
+* [Custom made arduino library for the novaPM sensor](https://github.com/lauraperrenoud/novaPM)
  
 
 ### Wiring
