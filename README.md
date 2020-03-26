@@ -63,6 +63,15 @@ and then throw some data like
 ```
 The code runs with Python3. 
 
+### Data stream
+
+At the beginning of the dataStreamer.py, you will find the credential to upload the data to Adafruit.io. If you want to use your own adafruit.io feed you can change the following and replace them by yours. You will also need to adapt the unity accordingly. 
+```
+key = ""
+username = ""
+feed = ""
+```
+
 ### Autolaunch
 
 Open a terminal window on the Pi and type.
