@@ -105,3 +105,12 @@ do
 	sleep 5
 done
 ```
+### Tracker Hat
+Install the tracker Hat by following these instructions. 
+https://sixfab.com/ppp-installer-for-sixfab-shield/
+The tracker hat we use is this one *Raspberry Pi GPRS/GPS Tracker HAT*
+https://sixfab.com/product/raspberry-pi-gprs-gps-tracker-hat/
+Tracker Hat Github
+https://github.com/sixfab/Sixfab_RPi_Tracker_HAT
+
+
