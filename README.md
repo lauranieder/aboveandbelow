@@ -139,5 +139,11 @@ The enable serial_hw and I2C interfaces by following instructions below:
 7. Finish
 8. Reboot
 9. It's done.
-
+##### Troubleshootting
+###### GPIO error "Already in use"
+GPIO error "Already in use" might be raised if you are doing some testing and restarting the program over and over again. 
+Use this before restarting the code
+```
+sudo killall pigpiod
+```
 
