@@ -105,12 +105,39 @@ do
 	sleep 5
 done
 ```
-### Tracker Hat
-Install the tracker Hat by following these instructions. 
-https://sixfab.com/ppp-installer-for-sixfab-shield/
+### GPS Tracker Hat
 The tracker hat we use is this one *Raspberry Pi GPRS/GPS Tracker HAT*
 https://sixfab.com/product/raspberry-pi-gprs-gps-tracker-hat/
+
+#### PPPinstaller
+Install the tracker Hat by following these instructions. 
+https://sixfab.com/ppp-installer-for-sixfab-shield/
+```
+sudo ./install.sh
+```
+* Select number 5 / Tracker Hat. 
+* For the Sim card I purchased from digitec IOT, set the APN to "dr.m2m.ch". With no credentials needed. 
+
+#### Tracker Hat Librairies
 Tracker Hat Github
 https://github.com/sixfab/Sixfab_RPi_Tracker_HAT
+
+Because there is no readme on this github I mainly followed the instructions in this github https://github.com/sixfab/Sixfab_RPi_CellularIoT_App_Shield instead which is very similar. 
+
+Go to the folder where the library is installed (in our case I put it here /aboveandbelow/aboveAndBelowPython/TrackerHat) and do.
+```
+sudo python3 setup.py install
+```
+The enable serial_hw and I2C interfaces by following instructions below:
+
+1. Run sudo raspi-config
+2. Select 5 Interfacing Options
+3. Enable P5 I2C
+4. For P6 Serial
+5. Disable Login shell to be accessible over serial
+6. Enable Serial port hardware
+7. Finish
+8. Reboot
+9. It's done.
 
 
