@@ -105,6 +105,10 @@ do
 	sleep 5
 done
 ```
+This section must be updated with the new crontab 
+https://stackoverflow.com/questions/16798111/how-to-find-kill-a-specific-python-program
+
+
 ### GPS Tracker Hat
 The tracker hat we use is this one *Raspberry Pi GPRS/GPS Tracker HAT*
 https://sixfab.com/product/raspberry-pi-gprs-gps-tracker-hat/
