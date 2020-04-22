@@ -151,5 +151,9 @@ sudo killall pigpiod
 Degrees, Minutes, Seconds to Degrees decimal conversion 
 https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees
 
+### Saving GPS data to a file
+https://pythonspot.com/write-file/
+
+
 
 
