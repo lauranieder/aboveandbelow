@@ -124,7 +124,7 @@ https://github.com/sixfab/Sixfab_RPi_Tracker_HAT
 
 Because there is no readme on this github I mainly followed the instructions in this github https://github.com/sixfab/Sixfab_RPi_CellularIoT_App_Shield instead which is very similar. 
 
-Go to the folder where the library is installed (in our case I put it here /aboveandbelow/aboveAndBelowPython/TrackerHat) and do.
+Go to the folder where the library is installed (in our case I put it here /aboveandbelow/aboveAndBelowPython/TrackerHat) and do. **If you make changes to the _tracker.py_ file, you will need to redo this step.**
 ```
 sudo python3 setup.py install
 ```
