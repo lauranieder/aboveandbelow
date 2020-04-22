@@ -147,3 +147,9 @@ Use this before restarting the code
 sudo killall pigpiod
 ```
 
+### GPS
+Degrees, Minutes, Seconds to Degrees decimal conversion 
+https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees
+
+
+
