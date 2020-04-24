@@ -8,7 +8,7 @@
 ## aboveAndBelowArduino
 
 ### Source code
-In aboveAndBelowArduino/AB_Arduino_ReadPollutionSensors/AB_Arduino_ReadPollutionSensors.ino you will find the code to upload on an Arduino. 
+In *aboveAndBelowArduino/AB_Arduino_ReadPollutionSensors/AB_Arduino_ReadPollutionSensors.ino* you will find the code to upload on an Arduino. 
 
 Tested with 1.8.12 version of Arduino IDE.
 
@@ -49,7 +49,7 @@ The OS can be found here if you need to install other Pis, I recommend using NOO
 ### Installing and testing the code
 The source code contained in this folder must be installed on the raspberry Pi. 
 
-The exact path to the dataStreamer.py file must be :
+The exact path to the *dataStreamer.py* file must be :
 ```
 /home/pi/aboveandbelow/aboveAndBelowPython/dataStreamer.py
 ```
@@ -71,7 +71,7 @@ The code runs with Python3.
 
 ### Data stream
 
-At the beginning of the dataStreamer.py, you will find the credential to upload the data to Adafruit.io. If you want to use your own adafruit.io feed you can change the following and replace them by yours. You will also need to adapt the unity accordingly. 
+At the beginning of the *dataStreamer.py*, you will find the credential to upload the data to Adafruit.io. If you want to use your own adafruit.io feed you can change the following and replace them by yours. You will also need to be adapted the unity accordingly. 
 ```
 key = ""
 username = ""
@@ -82,30 +82,29 @@ feed = ""
 
 Open a terminal window on the Pi and type.
 ```
-sudo crontab -e
+nano crontab -e
 ```
-It will open the crontab file that you can edit using nano and type. 
+It will open the crontab file that you can edit using nano editor and type. 
 ```
-@reboot bash /home/pi/aboveandbelow/aboveAndBelowPython/startupStream.sh
+*/2 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestart.sh
 ```
 Don't forget to save. (Nano reminder : To quit, CTRL+X and then hit Y or O to save. If you are not familiar with nano text editor on Pi check a tutorial online. )
 
-The startupStream.sh file contains a code that will run in a loop, quit and relaunch periodically the python code so if anything goes wrong, it will restart.
+The *checkAndRestart.sh* file contains a code that will check is the *dataStreamer.py* is still running, otherwise it will relaunch it. 
+
+The crontab will launch this script every 2 minutes. 
 
 ```
 #!/bin/bash
-
-while true
-do
-	printf "RELAUNCH"
-	python3 /home/pi/aboveandbelow/aboveAndBelowPython/dataStreamer.py &
-	sleep 120
-	printf "KILL PYTHON"
-	pkill -9 python
-	sleep 5
-done
+if pgrep -f dataStreamer.py >/dev/null
+then
+     echo "Process dataStreamer is running."
+else
+     echo "Process dataStreamer is not running. Starting dataStreamer.py."
+   	 python3 /home/pi/aboveandbelow/aboveAndBelowPython/dataStreamer.py &
+fi
 ```
-This section must be updated with the new crontab 
+Reference for finding a specific python code. 
 https://stackoverflow.com/questions/16798111/how-to-find-kill-a-specific-python-program
 
 
@@ -113,27 +112,18 @@ https://stackoverflow.com/questions/16798111/how-to-find-kill-a-specific-python-
 The tracker hat we use is this one *Raspberry Pi GPRS/GPS Tracker HAT*
 https://sixfab.com/product/raspberry-pi-gprs-gps-tracker-hat/
 
-#### PPPinstaller
-Install the tracker Hat by following these instructions. 
-https://sixfab.com/ppp-installer-for-sixfab-shield/
-```
-sudo ./install.sh
-```
-* Select number 5 / Tracker Hat. 
-* For the Sim card I purchased from digitec IOT, set the APN to "dr.m2m.ch". With no credentials needed. 
 
 #### Tracker Hat Librairies
-Tracker Hat Github
+You can find the librairies on the Tracker Hat Github. I already added it in this github but in case you want to check if there is a new version, it is here. 
 https://github.com/sixfab/Sixfab_RPi_Tracker_HAT
 
-Because there is no readme on this github I mainly followed the instructions in this github https://github.com/sixfab/Sixfab_RPi_CellularIoT_App_Shield instead which is very similar. 
+Because there is no readme on this github I mainly followed the instructions in this github instead https://github.com/sixfab/Sixfab_RPi_CellularIoT_App_Shield  which is very similar. 
 
 Go to the folder where the library is installed (in our case I put it here /aboveandbelow/aboveAndBelowPython/TrackerHat) and do. **If you make changes to the _tracker.py_ file, you will need to redo this step.**
 ```
 sudo python3 setup.py install
 ```
 The enable serial_hw and I2C interfaces by following instructions below:
-
 1. Run sudo raspi-config
 2. Select 5 Interfacing Options
 3. Enable P5 I2C
@@ -143,25 +133,54 @@ The enable serial_hw and I2C interfaces by following instructions below:
 7. Finish
 8. Reboot
 9. It's done.
-##### Troubleshootting
-###### GPIO error "Already in use"
+
+#### GPS code
+
+
+##### Troubleshootting – GPIO error "Already in use"
 GPIO error "Already in use" might be raised if you are doing some testing and restarting the program over and over again. 
-Use this before restarting the code
+Use this before restarting the code.
 ```
 sudo killall pigpiod
 ```
 
-### GPS
-Degrees, Minutes, Seconds to Degrees decimal conversion 
-https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees
+#### GPS references
+The sensor used by the Tracket Hat use the NMEA references.
+
+Basically it will ouput GPS information this way. 
+```
+$GPRMC,183729,A,3907.356,N,12102.482,W,000.0,360.0,080301,015.5,E*6F
+```
+**A** in 3rd positions means the data is valid. 
+**V** in 3rd positions means the data is void, so there is no satellite Data available.
+
+If that happens, please **make sure the device is placed outisde and you can see the sky**. Otherwise it won't work.
 
 NMEA reference
 https://www.gpsinformation.org/dale/nmea.htm
+
+NMEA outputs data in a Degrees, Minutes, Seconds format so I made a conversion to Degrees decimal. 
+https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees
+
+
 
 
 ### Saving GPS data to a file
 https://pythonspot.com/write-file/
 
+
+#### Wifi access with PPP – PPPinstaller
+Either you can use your own Wifi router or you can also try to use this.
+
+Install the tracker Hat by following these instructions. 
+https://sixfab.com/ppp-installer-for-sixfab-shield/
+```
+sudo ./install.sh
+```
+* Select number 5 / Tracker Hat. 
+* For the Sim card I purchased from digitec IOT, set the APN to "dr.m2m.ch". With no credentials needed. If you are using a SIM card from a UK operator, please refer to your operator to know the APN carrier. 
+
+The installation did not work with my swiss SIM card and with the PI 4. But in case you want to retry with another SIM feel free to. 
 
 
 
