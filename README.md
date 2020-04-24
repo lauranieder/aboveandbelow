@@ -163,7 +163,7 @@ $GPRMC,183729,A,3907.356,N,12102.482,W,000.0,360.0,080301,015.5,E*6F
 **A** in 3rd positions means the data is valid. 
 **V** in 3rd positions means the data is void, so there is no satellite Data available.
 
-If that happens, please **make sure the device is placed outisde and you can see the sky**. Otherwise it won't work.
+If that happens, please **make sure the device is placed outside and you can see the sky**. Otherwise it won't work.
 
 NMEA reference
 https://www.gpsinformation.org/dale/nmea.htm
