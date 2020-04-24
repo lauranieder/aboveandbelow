@@ -135,14 +135,23 @@ The enable serial_hw and I2C interfaces by following instructions below:
 9. It's done.
 
 #### GPS code
+I adapted the code from *GNSS.py* to a new version *GNSS_readOnce.py* that will just read the data from the GPS sensor until it has registered a valid reading. 
 
+To test this code, you can open a terminal and type 
+```
+python3 GNSS_readOnce.py
+```
+When a valid reading happens, it will be automatically saved in the text file *GPSdata.txt* which will be then read by the *dataStreamer.py*
 
-##### Troubleshootting – GPIO error "Already in use"
-GPIO error "Already in use" might be raised if you are doing some testing and restarting the program over and over again. 
-Use this before restarting the code.
+Example of output data
 ```
-sudo killall pigpiod
+46.517021666666665
+6.643313333333333
+04-23-2020T18:07:41Z
 ```
+
+Reference for saving GPS data to a file
+https://pythonspot.com/write-file/
 
 #### GPS references
 The sensor used by the Tracket Hat use the NMEA references.
@@ -164,10 +173,12 @@ https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees
 
 
 
-
-### Saving GPS data to a file
-https://pythonspot.com/write-file/
-
+##### Troubleshootting – GPIO error "Already in use"
+GPIO error "Already in use" might be raised if you are doing some testing and restarting the program over and over again. 
+Use this before restarting the code.
+```
+sudo killall pigpiod
+```
 
 #### Wifi access with PPP – PPPinstaller
 Either you can use your own Wifi router or you can also try to use this.
