@@ -86,11 +86,11 @@ nano crontab -e
 ```
 It will open the crontab file that you can edit using nano editor and type. 
 ```
-*/2 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestart.sh
+*/2 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestartDataStreamer.sh
 ```
 Don't forget to save. (Nano reminder : To quit, CTRL+X and then hit Y or O to save. If you are not familiar with nano text editor on Pi check a tutorial online. )
 
-The *checkAndRestart.sh* file contains a code that will check is the *dataStreamer.py* is still running, otherwise it will relaunch it. 
+The *checkAndRestartDataStreamer.sh* file contains a code that will check is the *dataStreamer.py* is still running, otherwise it will relaunch it. 
 
 The crontab will launch this script every 2 minutes. 
 
