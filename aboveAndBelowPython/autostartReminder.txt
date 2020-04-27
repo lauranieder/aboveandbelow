@@ -1,0 +1,6 @@
+#Open a terminal window on the Pi and type.
+crontab -e
+
+#It will open the crontab file that you can edit using nano editor and type.
+*/2 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestartDataStreamer.sh
+*/5 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestartGNSS.sh

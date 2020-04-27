@@ -1,3 +1,4 @@
+#!/bin/bash
 import serial
 import time
 import json
@@ -24,7 +25,7 @@ ser = serial.Serial(
     timeout=0
 )
 
-print("connected to: " + ser.portstr)
+print("Arduino connected to: " + ser.portstr)
 
 #this will store the line
 seq = []
@@ -33,6 +34,37 @@ started = 0
 joined_seq = "";
 lines = []
 data = []
+dataToSend = []
+
+#ReadGPSData from a file
+path = "/home/pi/aboveandbelow/aboveAndBelowPython/TrackerHat/"
+filename = "GPSdata.txt"
+
+def readGPSData(file):
+    myfile = open(file, 'r')
+    lines =myfile.readlines()
+    i = 0
+    if len(lines) == 3:
+        for x in lines:
+            if i == 0:
+                try:
+                    float(x)
+                    lat = x.strip()
+                except ValueError:
+                    return ["0", "0", "Formatting error in the GPSdata. Lat is not a float."]
+            elif i == 1:
+                try:
+                    float(x)
+                    long = x.strip()
+                except ValueError:
+                    return ["0", "0", "Formatting error in the GPSdata. Long is not a float."]
+            elif i == 2:
+                date_time = x.strip()
+            i = i+1
+        return [str(float(lat)), str(float(long)), str(date_time)]
+    else:
+        return ["0", "0", "Formatting error in the GPSdata. Line number incorrect."]
+
 
 
 while True:
@@ -40,31 +72,23 @@ while True:
         if chr(c) == '&':
             started = 1
             data = []
+            dataToSend = []
         if started == 1:
             seq.append(chr(c)) #convert from ANSII
-##         joined_seq = ''.join(str(v) for v in seq) #Make a string from array
         if chr(c) == '#':#\n
             joined_seq = ''.join(seq)
-            ##print(joined_seq)
             lines = joined_seq.split(',')
-##            print("line : ")
             inc = 0
             for v in lines:
                 if inc > 0:
                     temp = v.split('=')
-                    ##for t in temp:
-                        ##print(t)
                     if len(temp) == 2:
                         data.append(temp[1])
-                        ##print("line to append : "+temp[1])
-
-##                else:
                 inc += 1
                 temp = []
-
-            #print(v)
             if len(data) > 10:
-                fakeJson = {
+                GPSdata = readGPSData(path+filename)
+                sensorData = {
                     "pm25": data[0],
                     "pm10": data[1],
                     "co2": data[2],
@@ -76,18 +100,26 @@ while True:
                     "pressureInHg": data[8],
                     "altitudeM": data[9],
                     "altitudeF": data[10],
+                    "lat":GPSdata[0],
+                    "lon":GPSdata[1],
+                    "gdat":GPSdata[2],
                 }
-                dumped = json.dumps(fakeJson)
-                #print("ddd: "+dumped)
-                data = {
-                    "value": dumped,
-                    "lat":random.random(),
-                    "lon":random.random(),
+                sensorDataDumped = json.dumps(sensorData)
+
+                localisationData = {
+                    "lat":"4",
+                    "lon":"5",
+                    "gdat":"hellworld",
                 }
-                #dumped = json.dumps(data)
-                #print(data)
+                localisationDataDumped = json.dumps(localisationData)
+
+                dataToSend = {
+                    "value": sensorDataDumped,
+                    "gps":localisationDataDumped,
+                }
+                #print(str(GPSdata[2]))
                 with requests.Session() as s:
-                    r = s.post(url, json = data, headers = headers)
+                    r = s.post(url, json = dataToSend, headers = headers)
                     print(r.status_code, flush=True)
                     print(r.text, flush=True)
                 seq = []

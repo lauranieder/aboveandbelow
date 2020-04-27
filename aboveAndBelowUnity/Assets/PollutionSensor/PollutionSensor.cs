@@ -52,7 +52,7 @@ public class PollutionSensor : MonoBehaviour
             //
             WWWForm form = new WWWForm();
             //form.AddField("myField", "myData");
-            //  
+            //
             using (UnityWebRequest www = UnityWebRequest.Get(finalUrl)) {
                 yield return www.SendWebRequest();
                 //
@@ -91,9 +91,12 @@ public class PollutionSensor : MonoBehaviour
 [System.Serializable]
 public class PollutionData {
     public System.DateTime updated;
+
+    public System.DateTime updatedGPS;
     //
     public float lat; // -90 to 90 deg
     public float lon; // -180 to 180 deg
+
     // Meters or Feets
     public float altitudeM; // 0 to 8848
     public float altitudeF; // 0 to 29028
@@ -122,9 +125,9 @@ public class PollutionData {
     public PollutionData(string data) {
         raw = data;
         JSONNode json = SimpleJSON.JSON.Parse(data);
-        lat = json["lat"];
-        lon = json["lon"];
+
         updated = System.DateTime.Parse(json["updated_at"]);
+
         string value = json["value"];
         //
         JSONNode jsonValue = SimpleJSON.JSON.Parse(value);
@@ -144,6 +147,10 @@ public class PollutionData {
         pm10 = jsonValue["pm10"];
         co2 = jsonValue["co2"];
         tvoc = jsonValue["tvoc"];
+
+        lat = jsonValue["lat"];
+        lon = jsonValue["lon"];
+        updatedGPS = System.DateTime.Parse(jsonValue["gdat"]);
     }
     public void Randomize() {
         lat = Random.Range(-90f, 90f);
@@ -161,6 +168,7 @@ public class PollutionData {
         co2 = Random.Range(0f, 1f);
         tvoc = Random.Range(0f, 1f);
         updated = System.DateTime.Now;
+        updatedGPS = System.DateTime.Now;
     }
     public PollutionData() {
     }
