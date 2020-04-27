@@ -82,17 +82,18 @@ feed = ""
 
 Open a terminal window on the Pi and type.
 ```
-nano crontab -e
+crontab -e
 ```
 It will open the crontab file that you can edit using nano editor and type. 
 ```
 */2 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestartDataStreamer.sh
+*/5 * * * * bash /home/pi/aboveandbelow/aboveAndBelowPython/checkAndRestartGNSS.sh
 ```
 Don't forget to save. (Nano reminder : To quit, CTRL+X and then hit Y or O to save. If you are not familiar with nano text editor on Pi check a tutorial online. )
 
-The *checkAndRestartDataStreamer.sh* file contains a code that will check is the *dataStreamer.py* is still running, otherwise it will relaunch it. 
+The *checkAndRestartDataStreamer.sh* file contains a code that will check is the *dataStreamer.py* is still running, otherwise it will relaunch it. Same goes for the GNSS. In case there is a file called *autostartReminder.txt* reminder in the folder to copy/paste the lines into crontab. 
 
-The crontab will launch this script every 2 minutes. 
+The crontab will launch this script every 2 minutes for dataStreamer and 5 minutes for GNSS. 
 
 ```
 #!/bin/bash
@@ -148,6 +149,11 @@ Example of output data
 46.517021666666665
 6.643313333333333
 04-23-2020T18:07:41Z
+```
+
+If you see the data doesn't change for a while, you can also check the logfile to see what happens. 
+```
+tail -f /home/pi/aboveandbelow/aboveAndBelowPython/TrackerHat/GNSSLog.log
 ```
 
 Reference for saving GPS data to a file
